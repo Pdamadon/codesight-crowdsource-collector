@@ -12,7 +12,7 @@ import logger from './utils/logger';
 // Load environment variables  
 config();
 
-// Force Railway redeploy - July 15, 2025
+// Force Railway redeploy - July 15, 2025 - v2
 
 const app = express();
 const PORT = process.env.PORT || 3001;
