@@ -9,4 +9,4 @@ restartPolicyMaxRetries = 10
 NODE_ENV = "production"
 
 [nixpacks]
-configFile = "backend/package.json"
+configFile = "package.json"
