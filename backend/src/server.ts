@@ -13,6 +13,7 @@ import logger from './utils/logger';
 config();
 
 // Force Railway redeploy - July 15, 2025 - WebSocket fix
+// STABLE CHECKPOINT: Audio-only recording + Extension WebSocket working
 
 const app = express();
 const PORT = process.env.PORT || 3001;
