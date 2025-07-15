@@ -12,7 +12,7 @@ import logger from './utils/logger';
 // Load environment variables  
 config();
 
-// Force Railway redeploy - July 15, 2025 - v3 (CI disabled)
+// Force Railway redeploy - July 15, 2025 - WebSocket fix
 
 const app = express();
 const PORT = process.env.PORT || 3001;
