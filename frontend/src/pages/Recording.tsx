@@ -2,6 +2,8 @@ import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import Layout from '../components/Layout';
 
+// Audio-only recording with browser extension integration
+
 interface RecordingState {
   isRecording: boolean;
   isPaused: boolean;
