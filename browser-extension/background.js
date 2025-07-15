@@ -6,7 +6,7 @@ class CodeSightBackground {
     this.sessionId = null;
     this.eventQueue = [];
     this.screenshots = new Map();
-    this.codesightUrl = 'ws://localhost:3001/extension-ws'; // Will be configurable
+    this.codesightUrl = 'wss://codesight-crowdsource-collector-production.up.railway.app/extension-ws';
     
     this.initializeBackground();
   }
