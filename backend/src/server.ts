@@ -9,8 +9,10 @@ import { errorHandler, notFoundHandler } from './middleware/errorHandler';
 import { ExtensionWebSocketServer } from './services/websocketServer';
 import logger from './utils/logger';
 
-// Load environment variables
+// Load environment variables  
 config();
+
+// Force Railway redeploy - July 15, 2025
 
 const app = express();
 const PORT = process.env.PORT || 3001;
