@@ -201,9 +201,11 @@ class CodeSightBackground {
   async stopSession() {
     if (!this.sessionId) return;
 
+    const currentSessionId = this.sessionId; // Store sessionId before clearing
+
     const message = {
       type: 'session_stop',
-      sessionId: this.sessionId,
+      sessionId: currentSessionId,
       timestamp: Date.now()
     };
 
@@ -213,13 +215,20 @@ class CodeSightBackground {
     const tabs = await chrome.tabs.query({});
     for (const tab of tabs) {
       chrome.tabs.sendMessage(tab.id, {
-        action: 'STOP_TRACKING'
+        action: 'STOP_TRACKING',
+        sessionId: currentSessionId // Include sessionId in stop message
       }).catch(() => {
         // Tab might not have content script
       });
     }
 
-    this.sessionId = null;
+    // Don't clear sessionId immediately - content scripts need it to retrieve screenshots
+    // Clear it after a delay to allow screenshot retrieval
+    setTimeout(() => {
+      if (this.sessionId === currentSessionId) {
+        this.sessionId = null;
+      }
+    }, 10000); // 10 second delay
   }
 
   sendEvent(event) {
@@ -298,7 +307,7 @@ class CodeSightBackground {
 
   async captureScreenshot(tab, data, sendResponse) {
     try {
-      console.log('Capturing screenshot for event:', data.eventType);
+      console.log('Capturing screenshot for event:', data.eventType, 'SessionId:', this.sessionId);
       
       // Capture visible tab
       const screenshotDataUrl = await chrome.tabs.captureVisibleTab(tab.windowId, {
@@ -322,6 +331,11 @@ class CodeSightBackground {
         }
       });
       console.log('Background: Screenshot stored. Total screenshots:', this.screenshots.size);
+      
+      // Show notification for debugging
+      if (this.sessionId) {
+        this.showNotification('Screenshot Captured', `Event: ${data.eventType}\nSession: ${this.sessionId}\nTotal: ${this.screenshots.size}`);
+      }
 
       // Clean up old screenshots (keep last 100)
       if (this.screenshots.size > 100) {
@@ -383,6 +397,21 @@ class CodeSightBackground {
       summary[event.type] = (summary[event.type] || 0) + 1;
     });
     return summary;
+  }
+
+  showNotification(title, message) {
+    // Check if we have notification permission and show notification for debugging
+    try {
+      chrome.notifications.create({
+        type: 'basic',
+        iconUrl: 'icons/icon-48.png',
+        title: title,
+        message: message,
+        priority: 1
+      });
+    } catch (error) {
+      console.log('Notification:', title, '-', message);
+    }
   }
 }
 
