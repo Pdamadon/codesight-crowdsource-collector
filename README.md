@@ -1,5 +1,7 @@
 # CodeSight Crowdsource Collector
 
+> **📍 Good Starting Point** - This commit represents a stable, working system with audio-only recording, production WebSocket connectivity, and functional browser extension. All core features are operational and ready for enhancement.
+
 ## 🎯 Overview
 
 A comprehensive platform for collecting high-quality shopping behavior data to train AI agents for e-commerce automation. The system combines screen/audio recording with precise click tracking via browser extension to generate training data for AI models using Playwright automation.
